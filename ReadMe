@@ -1,0 +1,62 @@
+Overview:
+I will go through each class and give a brief overview of each.
+- App:
+    Just sets the scene and starts the game
+- Board:
+    Board controls much of the manipulation regarding, well, the board. Besides hosting notable methods
+    such as isValid(), highlightBoard(), and checkSandwich(), most notable in this class is its copy
+    constructor. This copy constructor is direct replica of the visible board and its pieces, only it is assigned to a
+    "dummy" pane. It is used to make and test invisible moves as the computer player.
+- ComputerPlayer:
+    ComputerPlayer contains most of the most complicated code. It extends Player so that it can be related to the other
+    player, HumanPlayer. The minimax methods are explained in detail within ComputerPlayer and pretty much all the
+    methods called on a board within minimax are called on the copied board mentioned above.
+- Constants:
+    Contains all of the numbers that are used multiple times throughout my program
+- Controls:
+    Much of this was already written but it adds the labels that are updated within board to the control pane and
+    makes them visible in a cohesive design. Additionally, it contains the method to set the players based on whatever
+    options are selected once Apply Settings is pressed.
+- HumanPlayer:
+    Doesn't contain much in it. Mainly used to differentiate players.
+-Moves:
+    Stores row, column, and value of moves. Has getter and setter methods within it
+-PaneOrganizer:
+    Creates a new instance of Game and Controls and instantiates the main and border panes. Sets the orientation
+    of the panes on the border pane
+-Piece:
+    Simply creates new pieces and adds them to the board. Contains some methods to manipulate these pieces.
+-Player:
+    As mentioned in the class, only really created to create a commonality between computer and human players
+-Referee:
+    Contains the click handler, getter and setter methods for the labels, and overall methods to control the game.
+    This is where the timeline that controls turns and what players can move is contained;.
+-Square:
+    Creates squares, controls the addition of pieces to these squares and the logical addition of these pieces to the
+    board as well (within the 2D array). Also full of getter and setter methods to manipulate both the squares and the
+    pieces within these squares.
+Design Choices:
+Most of my design choices are in fact listed within the method comments themselves, so I will just go over the most
+important ones. I will skip over the bulk of the getBestMove method because it is fully listed how to do it in the
+pseudocode and I explained my thought process in depth in the method comment. One tricky thing to accomplish was the
+switching of players. I spent a great amount of time both making it possible to have computer vs player gameplay and
+make computer vs computer gameplay not run at the speed of light and have some delay. My first design choice was to
+have the teamChoose() (team switching) method NOT be within the same if statements that told the computer to make
+the move. Had I done this, the computer players would play too fast to even see because as soon as the first player
+made a move, the next if statement would immediate be triggered. To get around this and make the computer only make
+ONE move per run of the timeline, I had to externalize the teamChoose() method. However, I had to ONLY do this if
+both computers were active, meaning I had to be careful as to what value mode1 and mode2 currently held. I am very
+proud of how I got around this issue with logical solutions. Another important design choice was the addition of my
+validMoves array in ComputerPlayer. This allowed me to simply loop through every validMove in the getBestMove()
+method and make recursion much easier. Another notable design choices are my implementation of a 2D array to store
+the locations of my pieces. This made getting the teams of the pieces and other methods requiring the existence of
+black or white pieces possible. Additionally, I am happy with how I conducted my checkGameOver method. Instead of
+jumping right to just checking if the board is full, I instead START by setting checkGameOver to true and then
+loop through the entire board. If there are any "highlightable" squares on either team, by the end of the move,
+checkGameOver is false. This makes it possible to fit the entire checkGameOver into one, efficient method.
+
+Known Bugs:
+None
+
+Hours:
+80
