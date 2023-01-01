@@ -202,7 +202,7 @@ public class Board {
             return false;
         }
         if (this.getBoard()[row + rowDirection][col + colDirection].getPiece().getTeamInt() != player) {
-            return checkOneDirection(row + rowDirection, col + colDirection, rowDirection, colDirection, player, true);
+            return this.checkOneDirection(row + rowDirection, col + colDirection, rowDirection, colDirection, player, true);
         }
         if (this.getBoard()[row + rowDirection][col + colDirection].getPiece().getTeamInt() == player && seenOpponent == true) {
             return true;

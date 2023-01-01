@@ -27,7 +27,7 @@ public class ComputerPlayer extends Player {
         for (int row = 1; row < Constants.NUM_ROW - 1; row++) {
             for (int col = 1; col < Constants.NUM_COLUMN - 1; col++) {
                 if (1 < row || row < Constants.NUM_ROW - 1 || 1 < col || col < Constants.NUM_COLUMN - 1) {
-                    int k = (row - 1) * 8 + col - 1;
+                    int k = (row - 1) * Constants.RAND_NUM + col - 1;
                     squareArrayNum[row][col] = numbers[k];
                 }
             }
@@ -115,40 +115,40 @@ public class ComputerPlayer extends Player {
             }
 
         }
-                ArrayList<Move> validMoves = this.getLegalMoves(player,board);
-                if (validMoves.isEmpty()) {
-                    if (intelligence == 1) {
-                        return new Move(row, col, -1000);
-                    }else{
-                            if (player == Constants.WHITE) {
-                                Move move = new Move(row,col,0);
-                                move.setValue(this.getBestMove(board, intelligence, 1).getValue() * -1);
-                                return move;
-                            }
-                            if (player == Constants.BLACK) {
-                                Move move = new Move(row,col,0);
-                                move.setValue(this.getBestMove(board, intelligence, 0).getValue() * -1);
-                                return move;
-                            }
-                        }
-                    } else {
-                    for (Move validMove : validMoves) {
-                        int row1 = validMove.getRow();
-                        int col1 = validMove.getCol();
-                        Board aiBoard = new Board(this.board);
-                        aiBoard.getBoard()[row][col].addPieceBoard(row1, col1, player);
-                        currMove = new Move(row1,col1,0);
-                        if (intelligence == 1) {
-                            currMove.setValue(this.evaluateBoard(player, aiBoard));
-                        } else {
-                            intelligence = intelligence -1;
-                            currMove.setValue(-1 * (getBestMove(board, intelligence, player).getValue()));
-                        }
-                        if (bestMove.getValue() <= currMove.getValue()) {
-                            bestMove = currMove;
-                        }
-                    }
+        ArrayList<Move> validMoves = this.getLegalMoves(player,board);
+        if (validMoves.isEmpty()) {
+            if (intelligence == 1) {
+                return new Move(row, col, -1000);
+            }else{
+                if (player == Constants.WHITE) {
+                    Move move = new Move(row,col,0);
+                    move.setValue(this.getBestMove(board, intelligence, 1).getValue() * -1);
+                    return move;
                 }
+                if (player == Constants.BLACK) {
+                    Move move = new Move(row,col,0);
+                    move.setValue(this.getBestMove(board, intelligence, 0).getValue() * -1);
+                    return move;
+                }
+            }
+        } else {
+            for (Move validMove : validMoves) {
+                int row1 = validMove.getRow();
+                int col1 = validMove.getCol();
+                Board aiBoard = new Board(this.board);
+                aiBoard.getBoard()[row][col].addPieceBoard(row1, col1, player);
+                currMove = new Move(row1,col1,0);
+                if (intelligence == 1) {
+                    currMove.setValue(this.evaluateBoard(player, aiBoard));
+                } else {
+                    intelligence = intelligence -1;
+                    currMove.setValue(-1 * (getBestMove(board, intelligence, player).getValue()));
+                }
+                if (bestMove.getValue() <= currMove.getValue()) {
+                    bestMove = currMove;
+                }
+            }
+        }
             }
         }
         return bestMove;
